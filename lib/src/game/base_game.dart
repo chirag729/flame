@@ -41,6 +41,12 @@ class BaseGame extends Game with FPSCounter {
   /// concurrency issues.
   final Set<Component> _removeLater = {};
 
+  /// Components to have their priority updated on the next update
+  ///
+  /// The component list is only changed at the start of each [update] to avoid
+  /// concurrency issues.
+  final Map<Component, int> _updatePriorityLater = {};
+
   /// The camera translates the coordinate space after the viewport is applied.
   final Camera camera = Camera();
 
@@ -152,6 +158,11 @@ class BaseGame extends Game with FPSCounter {
     _removeLater.addAll(components);
   }
 
+  /// Marks a component to have its priority updated on the next game tick
+  void updateComponentPriority(Component c, int priority) {
+    _updatePriorityLater[c] = priority;
+  }
+
   /// This implementation of render basically calls [renderComponent] for every component, making sure the canvas is reset for each one.
   ///
   /// You can override it further to add more custom behavior.
@@ -201,6 +212,18 @@ class BaseGame extends Game with FPSCounter {
       _addLater.clear();
       components.addAll(addNow);
       addNow.forEach((component) => component.onMount());
+    }
+
+    if (_updatePriorityLater.isNotEmpty) {
+      final updateNow = _updatePriorityLater.entries.toList(growable: false);
+
+      _updatePriorityLater.clear();
+
+      updateNow.forEach((entry) {
+        components.remove(entry.key);
+        entry.key.priority = entry.value;
+        components.add(entry.key);
+      });
     }
 
     components.forEach((c) => c.update(dt));

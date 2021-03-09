@@ -52,6 +52,8 @@ abstract class BaseComponent extends Component {
 
   TextConfig get debugTextConfig => TextConfig(color: debugColor, fontSize: 12);
 
+  BaseComponent({int priority}) : super(priority: priority);
+
   /// This method is called periodically by the game engine to request that your component updates itself.
   ///
   /// The time [dt] in seconds (with microseconds precision provided by Flutter) since the last update cycle.

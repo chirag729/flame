@@ -27,7 +27,7 @@ abstract class Component {
   /// The smaller the priority, the sooner your component will be updated/rendered.
   /// It can be any integer (negative, zero, or positive).
   /// If two components share the same priority, they will probably be drawn in the order they were added.
-  final int priority;
+  int priority;
 
   /// Whether this component should be removed or not.
   ///
