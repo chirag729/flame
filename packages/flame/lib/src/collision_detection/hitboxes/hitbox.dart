@@ -6,9 +6,8 @@ import '../../../extensions.dart';
 /// used in FCS.
 mixin Hitbox<T extends Hitbox<T>> implements GenericCollisionCallbacks<T> {
   /// Whether the hitbox should:
-  ///   * [CollidableType.active] - actively collide with other hitboxes.
-  ///   * [CollidableType.passive] - passively collide with other hitboxes (only
-  ///   collide with hitboxes that are active, but not other passive ones).
+  ///   * [CollidableType.active] - collide with active and passive hitboxes.
+  ///   * [CollidableType.passive] - collide with active hitboxes only.
   ///   * [CollidableType.inactive] - not collide with any other hitboxes.
   CollidableType get collidableType;
 
