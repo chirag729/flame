@@ -9,7 +9,6 @@ class ScreenCollidable<T extends FlameGame> extends PositionComponent
     with CollisionCallbacks, HasGameRef<T> {
   @override
   Future<void> onLoad() async {
-    await super.onLoad();
     size = gameRef.size;
     add(HitboxRectangle());
   }
